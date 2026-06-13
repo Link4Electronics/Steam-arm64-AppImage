@@ -1,33 +1,52 @@
 <div align="center">
 
-# TEMPLATE-AppImage 🐧
+# **THIS IS DEAD, this is crap too since it still relies on 32bit libs**
 
-[![GitHub Downloads](https://img.shields.io/github/downloads/pkgforge-dev/TEMPLATE-AppImage/total?logo=github&label=GitHub%20Downloads)](https://github.com/pkgforge-dev/TEMPLATE-AppImage/releases/latest)
-[![CI Build Status](https://github.com/pkgforge-dev/TEMPLATE-AppImage/actions/workflows/appimage.yml/badge.svg)](https://github.com/pkgforge-dev/TEMPLATE-AppImage/releases/latest)
-[![Latest Stable Release](https://img.shields.io/github/v/release/pkgforge-dev/TEMPLATE-AppImage)](https://github.com/pkgforge-dev/TEMPLATE-AppImage/releases/latest)
+# Steam-arm64-AppImage 🐧
+
+[![GitHub Downloads](https://img.shields.io/github/downloads/Link4Electronics/Steam-arm64-AppImage/total?logo=github&label=GitHub%20Downloads)](https://github.com/Link4Electronics/Steam-arm64-AppImage/releases/latest)
+[![CI Build Status](https://github.com//Link4Electronics/Steam-arm64-AppImage/actions/workflows/appimage.yml/badge.svg)](https://github.com/Link4Electronics/Steam-arm64-AppImage/releases/latest)
+[![Latest Stable Release](https://img.shields.io/github/v/release/Link4Electronics/Steam-arm64-AppImage)](https://github.com/Link4Electronics/Steam-arm64-AppImage/releases/latest)
 
 <p align="center">
-  <img src="https://github.com/pkgforge-dev.png" width="128" />
+  <img src="https://github.com/user-attachments/assets/0de7bd75-fd58-44f0-ba5f-74bad7261a3b" width="128" />
 </p>
+
+Portable AppImage of the **Steam arm64 beta client** for aarch64 Linux,
+built on top of [RunImage](https://github.com/VHSgunzo/runimage) — a portable
+single-file Linux container using unprivileged user namespaces.
 
 
 | Latest Stable Release | Upstream URL |
 | :---: | :---: |
-| [Click here](https://github.com/pkgforge-dev/TEMPLATE-AppImage/releases/latest) | [Click here](https://github.com/pkgforge-dev/Anylinux-AppImages) |
+| [Click here](https://github.com/Link4Electronics/Steam-arm64-AppImage/releases/latest) | [Click here](https://store.steampowered.com/) |
 
 </div>
 
+## How it works
+
+This AppImage does **NOT** bundle Steam binaries. It contains:
+
+1. A **RunImage container** (Ubuntu Linux arm rootfs) with all libraries Steam
+   needs (mesa, gtk3, pipewire, vulkan, etc.)
+2. A **launcher** that downloads the official Steam ARM64 beta from Valve's
+   CDN on **first run** to `~/.local/share/Steam-ARM-AppImage/`
+
+This avoids redistributing proprietary software, respecting Valve's Steam
+Subscriber Agreement. No FUSE required (uses uruntime).
+
+## Usage
+
+**Note: Only works on glibc distros, on musl like postmarketOS need to run inside a container**
+
 ---
+1. Download the AppImage from [Releases](https://github.com/Link4Electronics/Steam-arm64-AppImage/releases/latest)
+2. `chmod +x Steam-*.AppImage`
+3. Run it: `./Steam-*.AppImage`
+4. On first launch, Steam will be downloaded automatically (may take a few minutes)
 
-AppImage made using [sharun](https://github.com/VHSgunzo/sharun) and its wrapper [quick-sharun](https://github.com/pkgforge-dev/Anylinux-AppImages/blob/main/useful-tools/quick-sharun.sh), which makes it extremely easy to turn any binary into a portable package reliably without using containers or similar tricks. 
 
-**This AppImage bundles everything and it should work on any Linux distro, including old and musl-based ones.**
-
-This AppImage doesn't require FUSE to run at all, thanks to the [uruntime](https://github.com/VHSgunzo/uruntime).
-
-This AppImage is also supplied with a self-updater by default, so any updates to this application won't be missed, you will be prompted for permission to check for updates and if agreed you will then be notified when a new update is available.
-
-Self-updater is disabled by default if AppImage managers like [am](https://github.com/ivan-hc/AM), [soar](https://github.com/pkgforge/soar) or [dbin](https://github.com/xplshn/dbin) exist, which manage AppImage updates.
+---
 
 <details>
   <summary><b><i>raison d'être</i></b></summary>

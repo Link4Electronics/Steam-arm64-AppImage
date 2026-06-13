@@ -1,35 +1,26 @@
-name: Anylinux-AppImage
+name: Steam-ARM64-AppImage
 concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 on:
-  schedule:
-    - cron: "0 7 1/21 * *" # We default to rebuilding every 21 days, change this to your liking
   workflow_dispatch: {}
 
 jobs:
   build:
-    name: "${{ matrix.name }} (${{ matrix.arch }})"
+    name: "Build (${{ matrix.arch }})"
     runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
         include:
-          - runs-on: ubuntu-latest
-            name: Build AppImage
-            arch: x86_64
-          # comment out these 3 lines if aarch64 is not wanted
           - runs-on: ubuntu-24.04-arm
             name: Build AppImage
             arch: aarch64
-    container: ghcr.io/pkgforge-dev/archlinux:latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Preparing Container
-        uses: pkgforge-dev/anylinux-setup-action@0964f2258d6c93d1391359978dde081fd8b3c6af # v2
-      - name: Install Dependencies
-        run: /bin/sh ./get-dependencies.sh
+      - name: Install build dependencies
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq debootstrap curl zsync
       - name: Make AppImage
-        run: /bin/sh ./make-appimage.sh
+        run: sudo -E /bin/sh ./make-appimage.sh
       - name: Upload artifact
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
